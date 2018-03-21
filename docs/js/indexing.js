@@ -6,7 +6,7 @@ var client = new es.Client({
 });
 var lol=[];
 
-var obj = JSON.parse(fs.readFileSync('Models.json', 'utf8'))
+var obj = JSON.parse(fs.readFileSync('models.json', 'utf8'))
 var i = 1
 obj.forEach(function(model)
 {
@@ -18,5 +18,5 @@ obj.forEach(function(model)
 
 client.bulk({
   body : lol
-}, function (err, resp) {
+}, function (err, resp)  {
 });

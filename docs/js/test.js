@@ -19,6 +19,24 @@ async function print2 () {
     if (err) throw err;
   })};
 
-print();
+  async function WriteAllModels()
+  {
+    var cars=[];
+    const brands = await getBrands();
+    var models;
+    for (var i = 0; i < brands.length; i++) {
+      models = await getModels(brands[i]);
+      models.forEach(models => cars.push(models))
+      console.log(i);
 
-print2();
+    }
+    fs.appendFile('models.json',JSON.stringify(cars,null,2),null, function (err) {
+      if (err) throw err;
+    });
+
+  }
+
+WriteAllModels();
+//print();
+
+//print2();
