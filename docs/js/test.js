@@ -1,6 +1,7 @@
 const {getBrands} = require('node-car-api');
 const fs = require('fs');
 
+
 async function print () {
   const brands = await getBrands();
 

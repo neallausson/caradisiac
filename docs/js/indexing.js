@@ -1,4 +1,4 @@
-var es = require('elasticsearch')
+const es = require('elasticsearch')
 const fs = require('fs');
 // Set ElasticSearch location and port
 var client = new es.Client({
