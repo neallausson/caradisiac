@@ -56,7 +56,7 @@ var server = http.createServer(function(req, res) {
       '<a href="http://localhost:9292/suv">affichez les 10 voitures avec les plus gros volumes </a>'+
       '</body>'+
       '</html>');
-
+      res.end();
 
       var lol=[];
 
@@ -80,11 +80,46 @@ var server = http.createServer(function(req, res) {
 
     else if (page == '/suv') {
 
-        res.write('Hé ho, c\'est privé ici !');
+        //res.write('Hé ho, c\'est privé ici !');
+        client.search({
+          index: 'index',
+          type: 'model',
+          'body': {
+            'size': 10,
+            'sort': [
+                {
+                    'doc.volume.keyword': {
+                        'order': 'desc'
+                    }
+                }
+            ],
+            'query': {
+                'match_all': {}
+              }
+          }
+        }
+      ,function (error, response,status) {
+            if (error){
+              console.log("search error: "+error)
+            }
+            else {
+              console.log("--- Response ---");
+              console.log(response);
+              console.log("--- Hits ---");
+              var toshow ="";
+              response.hits.hits.forEach(function(hit){
+                console.log(hit._source.doc.model + " : volume " + hit._source.doc.volume);
+                toshow = toshow +"<p>" +hit._source.doc.model + " : volume " +hit._source.doc.volume+"</p>" ;
+                //res.write(hit._source.doc.model + " : volume " +hit._source.doc.volume);
+              })
+              res.write(toshow);
+              res.end();
+            }
+        });
 
     }
 
-  res.end();
+
 
 });
 
