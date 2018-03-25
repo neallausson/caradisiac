@@ -37,26 +37,7 @@ var server = http.createServer(function(req, res) {
 
     else if (page == '/populate') {
 
-        res.write('<!DOCTYPE html>'+
 
-      '<html>'+
-
-      '    <head>'+
-
-      '        <meta charset="utf-8" />'+
-
-      '        <title>Indexation de la base de données</title>'+
-
-      '    </head>'+
-
-      '    <body>'+
-      '<p>Caradisiac de Neal LAUSSON !</p>'+
-      '<p>nous sommes entrain d\'indexer la base de Données </p>'+
-      '<p>avec /suv vous afficherez les 10 voitures avec les plus gros volumes</p>'+
-      '<a href="http://localhost:9292/suv">affichez les 10 voitures avec les plus gros volumes </a>'+
-      '</body>'+
-      '</html>');
-      res.end();
 
       var lol=[];
 
@@ -74,6 +55,27 @@ var server = http.createServer(function(req, res) {
         body : lol
       }, function (err, resp)  {
       });
+      
+      res.write('<!DOCTYPE html>'+
+
+    '<html>'+
+
+    '    <head>'+
+
+    '        <meta charset="utf-8" />'+
+
+    '        <title>Indexation de la base de données</title>'+
+
+    '    </head>'+
+
+    '    <body>'+
+    '<p>Caradisiac de Neal LAUSSON !</p>'+
+    '<p>nous sommes entrain d\'indexer la base de Données </p>'+
+    '<p>avec /suv vous afficherez les 10 voitures avec les plus gros volumes</p>'+
+    '<a href="http://localhost:9292/suv">affichez les 10 voitures avec les plus gros volumes </a>'+
+    '</body>'+
+    '</html>');
+    res.end();
 
 
     }
@@ -101,12 +103,14 @@ var server = http.createServer(function(req, res) {
       ,function (error, response,status) {
             if (error){
               console.log("search error: "+error)
+              res.write("Don't forget to index the models ");
+              res.end();
             }
             else {
               console.log("--- Response ---");
               console.log(response);
               console.log("--- Hits ---");
-              var toshow ="";
+              var toshow ="<p>les 10 voitures avec le plus gros volumes :</p>";
               response.hits.hits.forEach(function(hit){
                 console.log(hit._source.doc.model + " : volume " + hit._source.doc.volume);
                 toshow = toshow +"<p>" +hit._source.doc.model + " : volume " +hit._source.doc.volume+"</p>" ;
